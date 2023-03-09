@@ -39,7 +39,6 @@ import {
 
 import EngineManager from "./background/engineManager";
 import VvppManager, { isVvppFile } from "./background/vvppManager";
-import configMigration014 from "./background/configMigration014";
 import { ipcMainHandle, ipcMainSend } from "@/electron/ipc";
 
 type SingleInstanceLockData = {
@@ -59,17 +58,13 @@ if (isTest) {
 } else if (isDevelopment) {
   suffix = "-dev";
 }
-console.log(`Environment: ${import.meta.env.MODE}, appData: voicevox${suffix}`);
+console.log(`Environment: ${import.meta.env.MODE}, appData: openjvox${suffix}`);
 
 // Electronの設定ファイルの保存場所を変更
-const beforeUserDataDir = app.getPath("userData"); // 設定ファイルのマイグレーション用
-const fixedUserDataDir = path.join(app.getPath("appData"), `voicevox${suffix}`);
+const appdata = process.env.LOCALAPPDATA ?? app.getPath("appData");
+const fixedUserDataDir = path.join(appdata, `openjvox${suffix}`, "editor");
 if (!fs.existsSync(fixedUserDataDir)) {
-  fs.mkdirSync(fixedUserDataDir);
-}
-app.setPath("userData", fixedUserDataDir);
-if (!isDevelopment) {
-  configMigration014({ fixedUserDataDir, beforeUserDataDir }); // 以前のファイルがあれば持ってくる
+  fs.mkdirSync(fixedUserDataDir, { recursive: true });
 }
 
 // silly以上のログをコンソールに出力
