@@ -66,6 +66,7 @@ const fixedUserDataDir = path.join(appdata, `openjvox${suffix}`, "editor");
 if (!fs.existsSync(fixedUserDataDir)) {
   fs.mkdirSync(fixedUserDataDir, { recursive: true });
 }
+app.setPath("userData", fixedUserDataDir);
 
 // silly以上のログをコンソールに出力
 log.transports.console.format = "[{h}:{i}:{s}.{ms}] [{level}] {text}";
