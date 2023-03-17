@@ -62,7 +62,11 @@ console.log(`Environment: ${import.meta.env.MODE}, appData: openjvox${suffix}`);
 
 // Electronの設定ファイルの保存場所を変更
 const appdata = process.env.LOCALAPPDATA ?? app.getPath("appData");
-const fixedUserDataDir = path.join(appdata, `openjvox${suffix}`, "editor");
+const fixedUserDataDir = path.join(
+  appdata,
+  `openjvox${suffix}`,
+  "openjvox-editor"
+);
 if (!fs.existsSync(fixedUserDataDir)) {
   fs.mkdirSync(fixedUserDataDir, { recursive: true });
 }
