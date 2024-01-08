@@ -551,10 +551,14 @@ watch(userOrderedCharacterInfos, (userOrderedCharacterInfos) => {
 });
 
 // エディタのアップデート確認
-const { isCheckingFinished, latestVersion, newUpdateInfos } =
-  useFetchNewUpdateInfos();
+const {
+  isCheckingFinished,
+  isShowNotification,
+  latestVersion,
+  newUpdateInfos,
+} = useFetchNewUpdateInfos();
 const isUpdateAvailable = computed(() => {
-  return isCheckingFinished.value && latestVersion.value !== "";
+  return isCheckingFinished.value && isShowNotification.value;
 });
 
 // ソフトウェアを初期化
