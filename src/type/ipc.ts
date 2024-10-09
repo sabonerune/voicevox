@@ -1,5 +1,6 @@
-import {
+import type {
   AppInfos,
+  AssetTextType,
   ConfigType,
   EngineInfo,
   EngineDirValidationResult,
@@ -12,8 +13,8 @@ import {
   EngineId,
   MessageBoxReturnValue,
 } from "@/type/preload";
-import { AltPortInfos } from "@/store/type";
-import { Result } from "@/type/result";
+import type { AltPortInfos } from "@/store/type";
+import type { Result } from "@/type/result";
 
 /**
  * invoke, handle
@@ -24,13 +25,8 @@ export type IpcIHData = {
     return: AppInfos;
   };
 
-  GET_HOW_TO_USE_TEXT: {
-    args: [];
-    return: string;
-  };
-
-  GET_POLICY_TEXT: {
-    args: [];
+  GET_ASSET_TEXT: {
+    args: [textType: AssetTextType];
     return: string;
   };
 
@@ -42,26 +38,6 @@ export type IpcIHData = {
   GET_UPDATE_INFOS: {
     args: [];
     return: UpdateInfo[];
-  };
-
-  GET_OSS_COMMUNITY_INFOS: {
-    args: [];
-    return: string;
-  };
-
-  GET_CONTACT_TEXT: {
-    args: [];
-    return: string;
-  };
-
-  GET_Q_AND_A_TEXT: {
-    args: [];
-    return: string;
-  };
-
-  GET_PRIVACY_POLICY_TEXT: {
-    args: [];
-    return: string;
   };
 
   GET_ALT_PORT_INFOS: {

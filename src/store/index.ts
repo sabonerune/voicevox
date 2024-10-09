@@ -150,25 +150,25 @@ export const indexStore = createPartialStore<IndexStoreTypes>({
 
   GET_HOW_TO_USE_TEXT: {
     async action() {
-      return await window.backend.getHowToUseText();
+      return await window.backend.getAssetText("HowToUse");
     },
   },
 
   GET_CONTACT_TEXT: {
     async action() {
-      return await window.backend.getContactText();
+      return await window.backend.getAssetText("Contact");
     },
   },
 
   GET_Q_AND_A_TEXT: {
     async action() {
-      return await window.backend.getQAndAText();
+      return await window.backend.getAssetText("QAndA");
     },
   },
 
   GET_POLICY_TEXT: {
     async action() {
-      return await window.backend.getPolicyText();
+      return await window.backend.getAssetText("PrivacyPolicy");
     },
   },
 
@@ -186,13 +186,13 @@ export const indexStore = createPartialStore<IndexStoreTypes>({
 
   GET_OSS_COMMUNITY_INFOS: {
     async action() {
-      return await window.backend.getOssCommunityInfos();
+      return await window.backend.getAssetText("OssCommunityInfos");
     },
   },
 
   GET_PRIVACY_POLICY_TEXT: {
     async action() {
-      return await window.backend.getPrivacyPolicyText();
+      return await window.backend.getAssetText("PrivacyPolicy");
     },
   },
 

@@ -20,13 +20,8 @@ import {
   ThemeConf,
 } from "@/type/preload";
 import {
-  ContactTextFileName,
-  HowToUseTextFileName,
-  OssCommunityInfosFileName,
+  AssetTextFileNames,
   OssLicensesJsonFileName,
-  PolicyTextFileName,
-  PrivacyPolicyTextFileName,
-  QAndATextFileName,
   UpdateInfosJsonFileName,
 } from "@/type/staticResources";
 
@@ -72,29 +67,16 @@ export const api: Sandbox = {
     };
     return Promise.resolve(appInfo);
   },
-  getHowToUseText() {
-    return fetch(toStaticPath(HowToUseTextFileName)).then((v) => v.text());
-  },
-  getPolicyText() {
-    return fetch(toStaticPath(PolicyTextFileName)).then((v) => v.text());
+  async getAssetText(textType) {
+    const fileName = AssetTextFileNames[textType];
+    const v = await fetch(toStaticPath(fileName));
+    return await v.text();
   },
   getOssLicenses() {
     return fetch(toStaticPath(OssLicensesJsonFileName)).then((v) => v.json());
   },
   getUpdateInfos() {
     return fetch(toStaticPath(UpdateInfosJsonFileName)).then((v) => v.json());
-  },
-  getOssCommunityInfos() {
-    return fetch(toStaticPath(OssCommunityInfosFileName)).then((v) => v.text());
-  },
-  getQAndAText() {
-    return fetch(toStaticPath(QAndATextFileName)).then((v) => v.text());
-  },
-  getContactText() {
-    return fetch(toStaticPath(ContactTextFileName)).then((v) => v.text());
-  },
-  getPrivacyPolicyText() {
-    return fetch(toStaticPath(PrivacyPolicyTextFileName)).then((v) => v.text());
   },
   getAltPortInfos() {
     // NOTE: ブラウザ版ではサポートされていません

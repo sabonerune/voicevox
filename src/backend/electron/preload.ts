@@ -1,7 +1,11 @@
 import { contextBridge, ipcRenderer } from "electron";
-
-import { IpcRendererInvoke } from "./ipc";
-import { Sandbox, ConfigType, EngineId, SandboxKey } from "@/type/preload";
+import type { IpcRendererInvoke } from "./ipc";
+import {
+  type ConfigType,
+  type EngineId,
+  type Sandbox,
+  SandboxKey,
+} from "@/type/preload";
 
 const ipcRendererInvokeProxy = new Proxy(
   {},
@@ -18,12 +22,8 @@ const api: Sandbox = {
     return await ipcRendererInvokeProxy.GET_APP_INFOS();
   },
 
-  getHowToUseText: async () => {
-    return await ipcRendererInvokeProxy.GET_HOW_TO_USE_TEXT();
-  },
-
-  getPolicyText: async () => {
-    return await ipcRendererInvokeProxy.GET_POLICY_TEXT();
+  getAssetText: (textType) => {
+    return ipcRendererInvokeProxy.GET_ASSET_TEXT(textType);
   },
 
   getOssLicenses: async () => {
@@ -32,22 +32,6 @@ const api: Sandbox = {
 
   getUpdateInfos: async () => {
     return await ipcRendererInvokeProxy.GET_UPDATE_INFOS();
-  },
-
-  getContactText: async () => {
-    return await ipcRendererInvokeProxy.GET_CONTACT_TEXT();
-  },
-
-  getQAndAText: async () => {
-    return await ipcRendererInvokeProxy.GET_Q_AND_A_TEXT();
-  },
-
-  getOssCommunityInfos: async () => {
-    return await ipcRendererInvokeProxy.GET_OSS_COMMUNITY_INFOS();
-  },
-
-  getPrivacyPolicyText: async () => {
-    return await ipcRendererInvokeProxy.GET_PRIVACY_POLICY_TEXT();
   },
 
   getAltPortInfos: async () => {

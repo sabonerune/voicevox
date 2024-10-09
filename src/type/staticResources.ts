@@ -1,8 +1,12 @@
-export const HowToUseTextFileName = "howtouse.md";
-export const OssCommunityInfosFileName = "ossCommunityInfos.md";
-export const PolicyTextFileName = "policy.md";
+import type { AssetTextType } from "./preload";
+
 export const OssLicensesJsonFileName = "licenses.json";
-export const ContactTextFileName = "contact.md";
-export const QAndATextFileName = "qAndA.md";
 export const UpdateInfosJsonFileName = "updateInfos.json";
-export const PrivacyPolicyTextFileName = "privacyPolicy.md";
+export const AssetTextFileNames: Record<AssetTextType, string> = {
+  Contact: "contact.md",
+  HowToUse: "howtouse.md",
+  OssCommunityInfos: "ossCommunityInfos.md",
+  Policy: "policy.md",
+  PrivacyPolicy: "privacyPolicy.md",
+  QAndA: "qAndA.md",
+};

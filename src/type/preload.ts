@@ -209,16 +209,19 @@ export const defaultToolbarButtonSetting: ToolbarSettingType = [
   "REDO",
 ];
 
+export type AssetTextType =
+  | "Contact"
+  | "HowToUse"
+  | "OssCommunityInfos"
+  | "Policy"
+  | "PrivacyPolicy"
+  | "QAndA";
+
 export interface Sandbox {
   getAppInfos(): Promise<AppInfos>;
-  getHowToUseText(): Promise<string>;
-  getPolicyText(): Promise<string>;
+  getAssetText(textType: AssetTextType): Promise<string>;
   getOssLicenses(): Promise<Record<string, string>[]>;
   getUpdateInfos(): Promise<UpdateInfo[]>;
-  getOssCommunityInfos(): Promise<string>;
-  getQAndAText(): Promise<string>;
-  getContactText(): Promise<string>;
-  getPrivacyPolicyText(): Promise<string>;
   getAltPortInfos(): Promise<AltPortInfos>;
   showAudioSaveDialog(obj: {
     title: string;
