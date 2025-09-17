@@ -69,6 +69,10 @@ export default defineConfig((options) => {
       outDir: path.resolve(import.meta.dirname, "dist"),
       chunkSizeWarningLimit: 10000,
       sourcemap,
+      rollupOptions: {
+        external: ["@/mock/engineMock"],
+        treeshake: { moduleSideEffects: (id) => id !== "@/mock/engineMock" },
+      },
     },
     publicDir: path.resolve(import.meta.dirname, "public"),
     css: {
