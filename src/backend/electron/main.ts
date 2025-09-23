@@ -186,6 +186,42 @@ void app.whenReady().then(() => {
   );
 });
 
+void app.whenReady().then(() => {
+  const urls = [
+    import.meta.env.VITE_DEV_SERVER_URL != undefined
+      ? `${new URL(import.meta.env.VITE_DEV_SERVER_URL).origin}/*`
+      : "app://*/*",
+  ];
+  const connectSrcUrls = [
+    import.meta.env.VITE_LATEST_UPDATE_INFOS_URL,
+    "https://*.google-analytics.com",
+    "https://*.analytics.google.com",
+    "https://*.googletagmanager.com",
+  ].join(" ");
+  const cspHeaderValue = [
+    "default-src 'self'",
+    "base-uri 'none'",
+    `connect-src 'self' http://127.0.0.1:* ${connectSrcUrls}`,
+    "font-src 'self' data:",
+    "img-src 'self' blob: data: http://127.0.0.1:* https://*.google-analytics.com https://*.googletagmanager.com",
+    "media-src 'self' blob: data: http://127.0.0.1:*",
+    "object-src 'none'",
+    "script-src 'self' 'wasm-unsafe-eval' https://*.googletagmanager.com",
+    "style-src 'self' 'unsafe-inline'",
+  ].join("; ");
+  session.defaultSession.webRequest.onHeadersReceived(
+    { urls },
+    (details, callback) => {
+      callback({
+        responseHeaders: {
+          ...details.responseHeaders,
+          "Content-Security-Policy": [cspHeaderValue],
+        },
+      });
+    },
+  );
+});
+
 // engine
 const vvppEngineDir = path.join(app.getPath("userData"), "vvpp-engines");
 
