@@ -38,7 +38,7 @@ export class Color {
 export class LineStrip {
   readonly color: Color;
   readonly width: number;
-  private readonly mesh: PIXI.Mesh<PIXI.Shader>;
+  private readonly mesh: PIXI.Mesh<PIXI.Geometry, PIXI.Shader>;
   private readonly shader: PIXI.Shader;
   private readonly geometry: PIXI.Geometry;
   private readonly pointsBuffer: PIXI.Buffer;
@@ -46,7 +46,7 @@ export class LineStrip {
   private points: Float32Array;
 
   get displayObject() {
-    return this.mesh as PIXI.DisplayObject;
+    return this.mesh;
   }
 
   get renderable() {
@@ -64,6 +64,7 @@ export class LineStrip {
       throw new Error("The number of points must be at least 2.");
     }
     this.points = new Float32Array(value * 2);
+    this.pointsBuffer.data = this.points;
   }
 
   /**
@@ -77,41 +78,47 @@ export class LineStrip {
     }
     this.color = color;
     this.width = width;
-    this.shader = PIXI.Shader.from(
-      lineStripVertexShaderSource,
-      fragmentShaderSource,
-      { color: color.toRgbaArray().map((value) => value / 255) },
-    );
+    this.shader = PIXI.Shader.from({
+      gl: {
+        vertex: lineStripVertexShaderSource,
+        fragment: fragmentShaderSource,
+      },
+      resources: {
+        colorUniforms: {
+          color: {
+            value: color.toRgbaArray().map((value) => value / 255),
+            type: "vec4<f32>",
+          },
+        },
+      },
+    });
     this.points = new Float32Array(numOfPoints * 2);
-    // @ts-expect-error 動くので無視。恐らくpixi.js v7の型定義がTypeScript 5.7以降に対応していないため。
-    this.pointsBuffer = new PIXI.Buffer(this.points, false);
+    this.pointsBuffer = new PIXI.Buffer({
+      data: this.points,
+      usage: PIXI.BufferUsage.VERTEX,
+    });
     const vertices = this.generateLineSegmentVertices(width);
     const sizeOfFloat = 4;
-    this.geometry = new PIXI.Geometry();
-    this.geometry.instanced = true;
-    this.geometry.instanceCount = numOfPoints - 1;
-    this.geometry.addAttribute("pos", vertices.flat(), 3);
-    this.geometry.addAttribute(
-      "pointA",
-      this.pointsBuffer,
-      2,
-      false,
-      PIXI.TYPES.FLOAT,
-      sizeOfFloat * 2,
-      0,
-      true,
-    );
-    this.geometry.addAttribute(
-      "pointB",
-      this.pointsBuffer,
-      2,
-      false,
-      PIXI.TYPES.FLOAT,
-      sizeOfFloat * 2,
-      sizeOfFloat * 2,
-      true,
-    );
-    this.mesh = new PIXI.Mesh(this.geometry, this.shader);
+    this.geometry = new PIXI.Geometry({
+      attributes: {
+        pos: { buffer: vertices.flat(), size: 3 },
+        pointA: {
+          buffer: this.pointsBuffer,
+          size: 2,
+          stride: sizeOfFloat * 2,
+          instance: true,
+        },
+        pointB: {
+          buffer: this.pointsBuffer,
+          size: 2,
+          stride: sizeOfFloat * 2,
+          start: sizeOfFloat * 2,
+          instance: true,
+        },
+      },
+      instanceCount: numOfPoints - 1,
+    });
+    this.mesh = new PIXI.Mesh({ geometry: this.geometry, shader: this.shader });
   }
 
   private generateLineSegmentVertices(width: number) {
@@ -138,8 +145,7 @@ export class LineStrip {
    * 折れ線を更新します。（設定されたポイントを適用します）
    */
   update() {
-    // @ts-expect-error 動くので無視。恐らくpixi.js v7の型定義がTypeScript 5.7以降に対応していないため。
-    this.pointsBuffer.update(this.points);
+    this.pointsBuffer.update();
     if (this.geometry.instanceCount !== this.numOfPoints - 1) {
       this.geometry.instanceCount = this.numOfPoints - 1;
     }

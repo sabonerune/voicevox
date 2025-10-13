@@ -8,7 +8,6 @@
 import { ref, watch, computed, onUnmounted, onMounted } from "vue";
 import * as PIXI from "pixi.js";
 import { useStore } from "@/store";
-import { useMounted } from "@/composables/useMounted";
 import {
   UNVOICED_PHONEMES,
   VALUE_INDICATING_NO_DATA,
@@ -104,15 +103,14 @@ const isPitchLineVisible = computed(() => {
   return store.getters.SELECTED_TRACK.singer != undefined;
 });
 
-const { mounted } = useMounted();
-
 const canvasContainer = ref<HTMLElement | null>(null);
 const canvas = ref<HTMLCanvasElement | null>(null);
 let resizeObserver: ResizeObserver | undefined;
 let canvasWidth: number | undefined;
 let canvasHeight: number | undefined;
 
-let renderer: PIXI.Renderer | undefined;
+const renderer = new PIXI.WebGLRenderer();
+const isRendererReady = ref(false);
 let stage: PIXI.Container | undefined;
 let originalPitchLine: PitchLine | undefined;
 let pitchEditLine: PitchLine | undefined;
@@ -120,9 +118,6 @@ let requestId: number | undefined;
 let renderInNextFrame = false;
 
 const render = () => {
-  if (renderer == undefined) {
-    throw new Error("renderer is undefined.");
-  }
   if (stage == undefined) {
     throw new Error("stage is undefined.");
   }
@@ -296,11 +291,11 @@ const pitchEditLock = new Mutex({ maxPending: 1 });
 
 // NOTE: mountedをwatchしているので、onMountedの直後に必ず１回実行される
 watch(
-  [mounted, singingGuidesInSelectedTrack, tempos, tpqn],
-  async ([mounted]) => {
+  [isRendererReady, singingGuidesInSelectedTrack, tempos, tpqn],
+  async ([isRendererReady]) => {
     try {
       await using _lock = await originalPitchLock.acquire();
-      if (mounted) {
+      if (isRendererReady) {
         await updateOriginalPitchLineDataMap();
       }
     } catch (e) {
@@ -311,11 +306,11 @@ watch(
 
 // NOTE: mountedをwatchしているので、onMountedの直後に必ず１回実行される
 watch(
-  [mounted, pitchEditData, previewPitchEdit, tempos, tpqn],
-  async ([mounted]) => {
+  [isRendererReady, pitchEditData, previewPitchEdit, tempos, tpqn],
+  async ([isRendererReady]) => {
     try {
       await using _lock = await pitchEditLock.acquire();
-      if (mounted) {
+      if (isRendererReady) {
         await updatePitchEditLineDataMap();
       }
     } catch (e) {
@@ -353,15 +348,6 @@ onMounted(() => {
   canvasWidth = canvasContainerElement.clientWidth;
   canvasHeight = canvasContainerElement.clientHeight;
 
-  renderer = new PIXI.Renderer({
-    view: canvasElement,
-    backgroundAlpha: 0,
-    antialias: true,
-    resolution: window.devicePixelRatio || 1,
-    autoDensity: true,
-    width: canvasWidth,
-    height: canvasHeight,
-  });
   stage = new PIXI.Container();
   originalPitchLine = new PitchLine(
     originalPitchLineColor.value,
@@ -377,13 +363,6 @@ onMounted(() => {
   stage.addChild(originalPitchLine.displayObject);
   stage.addChild(pitchEditLine.displayObject);
 
-  // webGLVersionをチェックする
-  // 2未満の場合、ピッチの表示ができないのでエラーとしてロギングする
-  const webGLVersion = renderer.context.webGLVersion;
-  if (webGLVersion < 2) {
-    error(`webGLVersion is less than 2. webGLVersion: ${webGLVersion}`);
-  }
-
   const callback = () => {
     if (renderInNextFrame) {
       render();
@@ -391,12 +370,9 @@ onMounted(() => {
     }
     requestId = window.requestAnimationFrame(callback);
   };
-  requestId = window.requestAnimationFrame(callback);
 
   resizeObserver = new ResizeObserver(() => {
-    if (renderer == undefined) {
-      throw new Error("renderer is undefined.");
-    }
+    if (!isRendererReady.value) return;
     const canvasContainerWidth = canvasContainerElement.clientWidth;
     const canvasContainerHeight = canvasContainerElement.clientHeight;
 
@@ -407,7 +383,31 @@ onMounted(() => {
       renderInNextFrame = true;
     }
   });
-  resizeObserver.observe(canvasContainerElement);
+
+  void renderer
+    .init({
+      canvas: canvasElement,
+      backgroundAlpha: 0,
+      antialias: true,
+      resolution: window.devicePixelRatio || 1,
+      autoDensity: true,
+      width: canvasWidth,
+      height: canvasHeight,
+    })
+    .then(() => {
+      isRendererReady.value = true;
+      // webGLVersionをチェックする
+      // 2未満の場合、ピッチの表示ができないのでエラーとしてロギングする
+      const webGLVersion = renderer.context.webGLVersion;
+      if (webGLVersion < 2) {
+        error(`webGLVersion is less than 2. webGLVersion: ${webGLVersion}`);
+      }
+      if (resizeObserver == undefined) {
+        throw new Error("resizeObserver is undefined.");
+      }
+      requestId = window.requestAnimationFrame(callback);
+      resizeObserver.observe(canvasContainerElement);
+    });
 });
 
 onUnmounted(() => {
