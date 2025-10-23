@@ -7,14 +7,14 @@ import tsconfigPaths from "vite-tsconfig-paths";
 import vue from "@vitejs/plugin-vue";
 import electronDefaultImport from "electron";
 import checker from "vite-plugin-checker";
-import { BuildOptions, defineConfig, loadEnv, Plugin } from "vite";
+import { type BuildOptions, defineConfig, loadEnv, type Plugin } from "vite";
 import { quasar } from "@quasar/vite-plugin";
 import { z } from "zod";
 import { storybookTest } from "@storybook/addon-vitest/vitest-plugin";
 import {
   checkSuspiciousImports,
-  CheckSuspiciousImportsOptions,
-  SourceFile,
+  type CheckSuspiciousImportsOptions,
+  type SourceFile,
 } from "./tools/checkSuspiciousImports.js";
 
 // @ts-expect-error electronをelectron環境外からimportするとelectronのファイルパスが得られる。

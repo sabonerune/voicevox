@@ -1,5 +1,5 @@
-import { Project as UfProject } from "@sevenc-nanashi/utaformatix-ts";
-import { VoicevoxScore } from "./common";
+import type { Project as UfProject } from "@sevenc-nanashi/utaformatix-ts";
+import type { VoicevoxScore } from "./common";
 import { DEFAULT_TPQN, createDefaultTrack } from "@/sing/domain";
 import { getDoremiFromNoteNumber } from "@/sing/viewHelper";
 import { NoteId } from "@/type/preload";

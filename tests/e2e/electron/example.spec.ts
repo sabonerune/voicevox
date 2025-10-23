@@ -1,7 +1,7 @@
 import fs from "node:fs/promises";
 import { _electron as electron, test } from "@playwright/test";
 import dotenv from "dotenv";
-import { MessageBoxSyncOptions } from "electron";
+import type { MessageBoxSyncOptions } from "electron";
 import { getUserTestDir, setupOldVersionEngine } from "./helper";
 
 test.beforeAll(async () => {

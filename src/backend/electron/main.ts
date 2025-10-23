@@ -1,29 +1,29 @@
-"use strict";
-
-import path from "node:path";
-
 import fs from "node:fs";
+import path from "node:path";
 import { pathToFileURL } from "node:url";
+import dayjs from "dayjs";
 import { app, dialog, Menu, net, protocol, session, shell } from "electron";
 import installExtension, { VUEJS_DEVTOOLS } from "electron-devtools-installer";
-
 import electronLog from "electron-log/main";
-import dayjs from "dayjs";
+import configMigration014 from "./configMigration014";
+import { getConfigManager } from "./electronConfig";
+import { getEngineAndVvppController } from "./engineAndVvppController";
+import {
+  ipcMainSendProxy,
+  registerIpcMainHandle,
+  type IpcMainHandle,
+} from "./ipc";
+import { getIpcMainHandle } from "./ipcMainHandle";
 import { initializeEngineInfoManager } from "./manager/engineInfoManager";
 import { initializeEngineProcessManager } from "./manager/engineProcessManager";
+import { initializeRuntimeInfoManager } from "./manager/RuntimeInfoManager";
 import { initializeVvppManager, isVvppFile } from "./manager/vvppManager";
 import {
   getWindowManager,
   initializeWindowManager,
 } from "./manager/windowManager";
-import configMigration014 from "./configMigration014";
-import { initializeRuntimeInfoManager } from "./manager/RuntimeInfoManager";
-import { registerIpcMainHandle, ipcMainSendProxy, IpcMainHandle } from "./ipc";
-import { getConfigManager } from "./electronConfig";
-import { getEngineAndVvppController } from "./engineAndVvppController";
-import { getIpcMainHandle } from "./ipcMainHandle";
 import { assertNonNullable } from "@/type/utility";
-import { EngineInfo } from "@/type/preload";
+import type { EngineInfo } from "@/type/preload";
 import { isMac, isProduction } from "@/helpers/platform";
 import { createLogger } from "@/helpers/log";
 
