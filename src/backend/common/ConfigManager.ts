@@ -1,21 +1,21 @@
 import semver from "semver";
 import AsyncLock from "async-lock";
 import {
-  AcceptTermsStatus,
-  ConfigType,
+  type AcceptTermsStatus,
+  type ConfigType,
   getConfigSchema,
-  DefaultStyleId,
-  ExperimentalSettingType,
-  VoiceId,
-  PresetKey,
-  EngineId,
+  type DefaultStyleId,
+  type ExperimentalSettingType,
+  type VoiceId,
+  type PresetKey,
+  type EngineId,
 } from "@/type/preload";
 import { ensureNotNullish } from "@/helpers/errorHelper";
 import { loadEnvEngineInfos } from "@/domain/defaultEngine/envEngineInfo";
 import {
   HotkeyCombination,
   getDefaultHotkeySettings,
-  HotkeySettingType,
+  type HotkeySettingType,
 } from "@/domain/hotkeyAction";
 
 const lockKey = "save";

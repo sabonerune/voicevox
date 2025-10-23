@@ -2,25 +2,25 @@ import { ref } from "vue";
 import { createPartialStore } from "./vuex";
 import { createUILockAction } from "./ui";
 import {
-  SingingStoreState,
-  SingingStoreTypes,
-  SingingCommandStoreState,
-  SingingCommandStoreTypes,
-  SaveResultObject,
-  Phrase,
+  type SingingStoreState,
+  type SingingStoreTypes,
+  type SingingCommandStoreState,
+  type SingingCommandStoreTypes,
+  type SaveResultObject,
+  type Phrase,
   transformCommandStore,
-  SingingVoice,
-  SequencerEditTarget,
-  PhraseKey,
+  type SingingVoice,
+  type SequencerEditTarget,
+  type PhraseKey,
   SequenceId,
-  SingingVolumeKey,
-  SingingVolume,
-  SingingVoiceKey,
-  EditorFrameAudioQueryKey,
-  EditorFrameAudioQuery,
-  TrackParameters,
-  SingingPitchKey,
-  SingingPitch,
+  type SingingVolumeKey,
+  type SingingVolume,
+  type SingingVoiceKey,
+  type EditorFrameAudioQueryKey,
+  type EditorFrameAudioQuery,
+  type TrackParameters,
+  type SingingPitchKey,
+  type SingingPitch,
 } from "./type";
 import {
   buildSongTrackAudioFileNameFromRawData,
@@ -31,26 +31,26 @@ import {
   sanitizeFileName,
 } from "./utility";
 import {
-  CharacterInfo,
-  EngineId,
+  type CharacterInfo,
+  type EngineId,
   NoteId,
   StyleId,
   TrackId,
 } from "@/type/preload";
-import { Note as NoteForRequestToEngine } from "@/openapi";
+import type { Note as NoteForRequestToEngine } from "@/openapi";
 import { ResultError, getValueOrThrow } from "@/type/result";
 import {
-  AudioEvent,
+  type AudioEvent,
   AudioPlayer,
-  AudioSequence,
+  type AudioSequence,
   ChannelStrip,
   Clipper,
   Limiter,
-  NoteEvent,
-  NoteSequence,
+  type NoteEvent,
+  type NoteSequence,
   OfflineTransport,
   PolySynth,
-  Sequence,
+  type Sequence,
   Transport,
 } from "@/sing/audioRendering";
 import {
@@ -112,15 +112,15 @@ import {
 } from "@/sing/utaformatixProject/utils";
 import { ExhaustiveError, UnreachableError } from "@/type/utility";
 import {
-  CacheLoadedEvent,
-  PhraseRenderingCompleteEvent,
-  PhraseRenderingErrorEvent,
-  PhraseRenderingStartedEvent,
-  PitchGenerationCompleteEvent,
-  QueryGenerationCompleteEvent,
+  type CacheLoadedEvent,
+  type PhraseRenderingCompleteEvent,
+  type PhraseRenderingErrorEvent,
+  type PhraseRenderingStartedEvent,
+  type PitchGenerationCompleteEvent,
+  type QueryGenerationCompleteEvent,
   SongTrackRenderer,
-  VoiceSynthesisCompleteEvent,
-  VolumeGenerationCompleteEvent,
+  type VoiceSynthesisCompleteEvent,
+  type VolumeGenerationCompleteEvent,
 } from "@/sing/songTrackRendering";
 import type {
   Note,

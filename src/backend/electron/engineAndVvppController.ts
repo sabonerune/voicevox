@@ -1,6 +1,6 @@
 import path from "node:path";
 import fs from "node:fs";
-import { ReadableStream } from "node:stream/web";
+import type { ReadableStream } from "node:stream/web";
 import { dialog } from "electron";
 
 import semver from "semver";
@@ -10,15 +10,19 @@ import { getEngineProcessManager } from "./manager/engineProcessManager";
 import { getRuntimeInfoManager } from "./manager/RuntimeInfoManager";
 import { getVvppManager } from "./manager/vvppManager";
 import { getWindowManager } from "./manager/windowManager";
-import { EngineId, EngineInfo, engineSettingSchema } from "@/type/preload";
 import {
-  PackageInfo,
+  type EngineId,
+  type EngineInfo,
+  engineSettingSchema,
+} from "@/type/preload";
+import {
+  type PackageInfo,
   fetchLatestDefaultEngineInfo,
   getSuitablePackageInfo,
 } from "@/domain/defaultEngine/latetDefaultEngine";
 import { loadEnvEngineInfos } from "@/domain/defaultEngine/envEngineInfo";
 import { UnreachableError } from "@/type/utility";
-import { ProgressCallback } from "@/helpers/progressHelper";
+import type { ProgressCallback } from "@/helpers/progressHelper";
 import { createLogger } from "@/helpers/log";
 import { DisplayableError, errorToMessage } from "@/helpers/errorHelper";
 

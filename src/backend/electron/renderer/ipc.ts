@@ -1,4 +1,4 @@
-import { IpcIHData } from "@/type/ipc";
+import type { IpcIHData } from "@/type/ipc";
 
 export type IpcRendererInvoke = {
   [K in keyof IpcIHData]: (

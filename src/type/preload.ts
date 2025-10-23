@@ -1,9 +1,9 @@
 import { z } from "zod";
-import { IpcSOData } from "./ipc";
-import { AltPortInfos } from "@/store/type";
-import { Result } from "@/type/result";
+import type { IpcSOData } from "./ipc";
+import type { AltPortInfos } from "@/store/type";
+import type { Result } from "@/type/result";
 import {
-  HotkeySettingType,
+  type HotkeySettingType,
   hotkeySettingSchema,
   getDefaultHotkeySettings,
 } from "@/domain/hotkeyAction";
