@@ -10,6 +10,7 @@ import { quasar } from "@quasar/vite-plugin";
 import { playwright as playwrightProvider } from "@vitest/browser-playwright";
 import { z } from "zod";
 import { storybookTest } from "@storybook/addon-vitest/vitest-plugin";
+import { visualizer } from "rollup-plugin-visualizer";
 import {
   checkSuspiciousImports,
   type CheckSuspiciousImportsOptions,
@@ -134,7 +135,10 @@ export default defineConfig((options) => {
               }
             },
             vite: {
-              plugins: [isProduction && checkSuspiciousImportsPlugin({})],
+              plugins: [
+                isProduction && checkSuspiciousImportsPlugin({}),
+                visualizer({ filename: "stats.main.html" }),
+              ],
               resolve: {
                 tsconfigPaths: true,
               },
@@ -167,6 +171,7 @@ export default defineConfig((options) => {
         ),
       isBrowser &&
         injectLoaderScriptPlugin("./backend/browser/backendApiLoader.ts"),
+      visualizer({ filename: "stats.renderer.html" }),
     ],
 
     test: {
@@ -308,7 +313,10 @@ const electronPreloadOptions = (
       }
     },
     vite: {
-      plugins: [isProduction && checkSuspiciousImportsPlugin({})],
+      plugins: [
+        isProduction && checkSuspiciousImportsPlugin({}),
+        visualizer({ filename: "stats.preload.html" }),
+      ],
       resolve: {
         tsconfigPaths: true,
       },

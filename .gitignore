@@ -139,3 +139,6 @@ vendored
 .rulesync/rules/*.local.md
 rulesync.local.jsonc
 !.rulesync/.aiignore
+
+# rollup-plugin-visualizer
+stats.*.html
