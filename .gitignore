@@ -53,3 +53,6 @@ vendored
 
 # Cache
 .eslintcache
+
+# rollup-plugin-visualizer
+stats.*.html

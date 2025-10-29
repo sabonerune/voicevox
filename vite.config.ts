@@ -11,6 +11,7 @@ import { BuildOptions, defineConfig, loadEnv, Plugin } from "vite";
 import { quasar } from "@quasar/vite-plugin";
 import { z } from "zod";
 import { storybookTest } from "@storybook/addon-vitest/vitest-plugin";
+import { visualizer } from "rollup-plugin-visualizer";
 import {
   checkSuspiciousImports,
   CheckSuspiciousImportsOptions,
@@ -150,6 +151,7 @@ export default defineConfig((options) => {
                       "osx-temperature-sensor",
                     ],
                   }),
+                visualizer({ filename: "stats.main.html" }),
               ],
               build: {
                 target: electronTargetVersion?.node,
@@ -169,6 +171,7 @@ export default defineConfig((options) => {
               plugins: [
                 tsconfigPaths({ root: import.meta.dirname }),
                 isProduction && checkSuspiciousImportsPlugin({}),
+                visualizer({ filename: "stats.preload.html" }),
               ],
               build: {
                 target: electronTargetVersion?.chrome,
@@ -185,6 +188,7 @@ export default defineConfig((options) => {
         ),
       isBrowser &&
         injectLoaderScriptPlugin("./backend/browser/backendApiLoader.ts"),
+      visualizer({ filename: "stats.renderer.html" }),
     ],
 
     test: {
