@@ -114,3 +114,6 @@ vendored
 **/WARP.md
 **/modular-mcp.json
 !.rulesync/.aiignore
+
+# rollup-plugin-visualizer
+stats.*.html
