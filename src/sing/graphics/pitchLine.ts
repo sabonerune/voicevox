@@ -37,7 +37,7 @@ export class PitchLine {
   private readonly lineStripMap: Map<PitchDataHash, LineStrip>;
   private readonly container: PIXI.Container;
 
-  get displayObject(): PIXI.DisplayObject {
+  get displayObject() {
     return this.container;
   }
 
