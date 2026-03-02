@@ -19,7 +19,6 @@ import {
   type SystemError,
   type TextAsset,
 } from "@/type/preload";
-import { fetchUpdateInfoDataImpl } from "@/backend/common/fetchUpdateInfoDataImpl";
 
 // エンジンのフォルダを開く
 function openEngineDirectory(engineId: EngineId) {
@@ -392,10 +391,6 @@ class IpcMainHandleManager {
           const a = e as SystemError;
           return failure(a.code, a);
         }
-      },
-
-      FETCH_UPDATE_INFO_DATA: () => {
-        return fetchUpdateInfoDataImpl();
       },
     };
   }

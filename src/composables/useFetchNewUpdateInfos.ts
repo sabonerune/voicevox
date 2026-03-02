@@ -1,7 +1,11 @@
 import { ref } from "vue";
 import semver from "semver";
 import { z } from "zod";
-import { type UpdateInfo, updateInfoSchema } from "@/type/preload";
+import {
+  type UpdateInfo,
+  type UrlString,
+  updateInfoSchema,
+} from "@/type/preload";
 
 /**
  * 現在のバージョンより新しいバージョンがリリースされているか調べる。
@@ -9,6 +13,7 @@ import { type UpdateInfo, updateInfoSchema } from "@/type/preload";
  */
 export const useFetchNewUpdateInfos = (
   currentVersionGetter: () => string | Promise<string>,
+  newUpdateInfosUrl: UrlString,
 ) => {
   const result = ref<
     | {
@@ -29,12 +34,12 @@ export const useFetchNewUpdateInfos = (
   void (async () => {
     const currentVersion = await currentVersionGetter();
 
-    const updateInfos = await window.backend
-      .fetchUpdateInfoData()
-      .then((data) => {
-        if (!data.ok) throw data.error;
-        return z.array(updateInfoSchema).parse(data.value);
-      });
+    const updateInfos = await fetch(newUpdateInfosUrl).then(
+      async (response) => {
+        if (!response.ok) throw new Error("Network response was not ok.");
+        return z.array(updateInfoSchema).parse(await response.json());
+      },
+    );
     const newUpdateInfos = updateInfos.filter((item: UpdateInfo) => {
       return semver.lt(currentVersion, item.version);
     });

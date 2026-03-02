@@ -230,11 +230,6 @@ export type IpcIHData = {
     args: [obj: { filePath: string }];
     return: Result<Uint8Array>;
   };
-
-  FETCH_UPDATE_INFO_DATA: {
-    args: [];
-    return: Result<unknown>;
-  };
 };
 
 export type BaseIpcData = Record<string, { args: unknown[]; return: unknown }>;
