@@ -8,7 +8,7 @@ pnpmfileChecksum: sha256-z5OZsdei02KuRzaEvbeWmjk8rekL69KSDiN5qP8y6ro=
 
 patchedDependencies:
   vite-plugin-checker@0.12.0:
-    hash: c1dda7aca78ff2da483fad896ea3abba497b9f8a587e5a5d137d331dbf9d44b6
+    hash: 49ea288c505d45c93fb75792438651c59952f14d2d615c2900fe4ef52176a8f2
     path: patches/vite-plugin-checker@0.12.0.patch
 
 importers:
@@ -279,7 +279,7 @@ importers:
         version: 7.3.1(@types/node@24.10.10)(jiti@2.6.1)(sass-embedded@1.97.3)(sass@1.97.3)(tsx@4.21.0)
       vite-plugin-checker:
         specifier: 0.12.0
-        version: 0.12.0(patch_hash=c1dda7aca78ff2da483fad896ea3abba497b9f8a587e5a5d137d331dbf9d44b6)(eslint@9.39.2(jiti@2.6.1))(optionator@0.9.4)(typescript@5.9.3)(vite@7.3.1(@types/node@24.10.10)(jiti@2.6.1)(sass-embedded@1.97.3)(sass@1.97.3)(tsx@4.21.0))(vue-tsc@3.2.4(typescript@5.9.3))
+        version: 0.12.0(patch_hash=49ea288c505d45c93fb75792438651c59952f14d2d615c2900fe4ef52176a8f2)(eslint@9.39.2(jiti@2.6.1))(optionator@0.9.4)(typescript@5.9.3)(vite@7.3.1(@types/node@24.10.10)(jiti@2.6.1)(sass-embedded@1.97.3)(sass@1.97.3)(tsx@4.21.0))(vue-tsc@3.2.4(typescript@5.9.3))
       vite-plugin-electron:
         specifier: 0.29.0
         version: 0.29.0
@@ -11208,7 +11208,7 @@ snapshots:
       extsprintf: 1.4.1
     optional: true
 
-  vite-plugin-checker@0.12.0(patch_hash=c1dda7aca78ff2da483fad896ea3abba497b9f8a587e5a5d137d331dbf9d44b6)(eslint@9.39.2(jiti@2.6.1))(optionator@0.9.4)(typescript@5.9.3)(vite@7.3.1(@types/node@24.10.10)(jiti@2.6.1)(sass-embedded@1.97.3)(sass@1.97.3)(tsx@4.21.0))(vue-tsc@3.2.4(typescript@5.9.3)):
+  vite-plugin-checker@0.12.0(patch_hash=49ea288c505d45c93fb75792438651c59952f14d2d615c2900fe4ef52176a8f2)(eslint@9.39.2(jiti@2.6.1))(optionator@0.9.4)(typescript@5.9.3)(vite@7.3.1(@types/node@24.10.10)(jiti@2.6.1)(sass-embedded@1.97.3)(sass@1.97.3)(tsx@4.21.0))(vue-tsc@3.2.4(typescript@5.9.3)):
     dependencies:
       '@babel/code-frame': 7.29.0
       chokidar: 4.0.3

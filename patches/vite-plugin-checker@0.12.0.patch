@@ -1,3 +1,5 @@
+NOTE: オリジナルのコードだと`script-src`に`'unsafe-inline'`が必要になってしまうので修正する
+
 diff --git a/dist/main.js b/dist/main.js
 index 8b8b1f36ba0111af75cdf47e2f3e9f374affc56f..ccebdba86de67cd369d5707f4e44537fd2442478 100644
 --- a/dist/main.js
